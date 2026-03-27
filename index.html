@@ -1,38 +1,120 @@
-async function showResults() {
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmfMHZwoN52qNs1xTacjZtFr6blp-rIbuP5CROzJyn70yQyScMtSI1YkIDZJ7z7-LSIQ/exec"; //
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Event Quest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --primary: #22d3ee; --secondary: #818cf8; --text: #f1f5f9; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        #game-container { width: 90%; max-width: 500px; background: var(--card); padding: 2rem; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); text-align: center; }
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: var(--primary); margin-bottom: 0.5rem; }
+        .level-indicator { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--secondary); margin-bottom: 2rem; }
+        .progress-bar { height: 6px; background: #334155; border-radius: 3px; margin-bottom: 2rem; overflow: hidden; }
+        #progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); width: 0%; transition: width 0.4s ease; }
+        .question { font-size: 1.2rem; margin-bottom: 2rem; font-weight: 500; min-height: 60px; }
+        .options { display: flex; flex-direction: column; gap: 1rem; }
+        button.option-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); padding: 1rem; border-radius: 12px; color: white; cursor: pointer; transition: all 0.2s ease; text-align: left; font-size: 1rem; }
+        button.option-btn:hover { background: var(--primary); color: var(--bg); transform: translateX(5px); border-color: var(--primary); }
+        .hidden { display: none; }
+        #result-screen { animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .archetype { font-size: 2rem; color: var(--primary); font-family: 'Orbitron'; margin-top: 1rem; }
+    </style>
+</head>
+<body>
 
-    document.getElementById('quest-ui').classList.add('hidden');
-    document.getElementById('result-screen').classList.remove('hidden');
-    document.getElementById('progress-fill').style.width = "100%";
+<div id="game-container">
+    <div id="quest-ui">
+        <div class="level-indicator" id="level-tag">Level 1: Die Landung</div>
+        <div class="progress-bar"><div id="progress-fill"></div></div>
+        <div class="question" id="question-text">Lädt...</div>
+        <div class="options" id="options-container"></div>
+    </div>
 
-    const counts = { A: 0, B: 0, C: 0 };
-    answers.forEach(a => counts[a]++);
-    let winner = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
-    
-    const archetypes = {
-        'A': { name: "Der Event-Champion", text: "Du hast das Event in vollen Zügen genossen!" },
-        'B': { name: "Der Genießer", text: "Du hast dir die Rosinen herausgepickt." },
-        'C': { name: "Der kritische Entdecker", text: "Dein Feedback hilft uns enorm weiter!" }
-    };
+    <div id="result-screen" class="hidden">
+        <div class="level-indicator">Quest Abgeschlossen</div>
+        <h1>DEIN ERGEBNIS</h1>
+        <div id="archetype-name" class="archetype">...</div>
+        <p id="result-text" style="margin: 2rem 0; line-height: 1.6;"></p>
+        <button onclick="location.reload()" class="option-btn" style="text-align: center; width: 100%;">Nochmal spielen</button>
+    </div>
+</div>
 
-    const myArchetyp = archetypes[winner].name;
-    document.getElementById('archetype-name').innerText = myArchetyp;
-    document.getElementById('result-text').innerText = archetypes[winner].text;
+<script>
+    // DEINE URL IST HIER BEREITS EINGEBAUT:
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmfMHZwoN52qNs1xTacjZtFr6blp-rIbuP5CROzJyn70yQyScMtSI1YkIDZJ7z7-LSIQ/exec";
 
-    // Daten für Google Sheet vorbereiten
-    const payload = {
-        archetyp: myArchetyp,
-        antworten: answers.join(", ")
-    };
+    const questions = [
+        { level: "Level 1: Die Landung", q: "Du betrittst die Event-Area. Welches Gefühl überkommt dich?", options: [{ text: "Eine Oase der Ruhe.", cat: "A" }, { text: "Volle Energie!", cat: "B" }, { text: "Mysteriös...", cat: "C" }] },
+        { level: "Level 2: Die Stärkung", q: "Dein Energielevel sinkt! Was sagst du dem Koch?", options: [{ text: "Meisterwerk! Mehr davon.", cat: "A" }, { text: "Gute Stärkung.", cat: "B" }, { text: "Mehr Auswahl bitte.", cat: "C" }] },
+        { level: "Level 3: Die Wissensquelle", q: "Du triffst auf den 'Meister des Wissens'. Was nimmst du mit?", options: [{ text: "Mein Kopf platzt vor Ideen!", cat: "A" }, { text: "Gute Auffrischung.", cat: "B" }, { text: "Harter Stoff...", cat: "C" }] },
+        { level: "Level 4: Die Gefährten", q: "An der Bar triffst du andere Reisende. Wie war der Austausch?", options: [{ text: "Meine neue Crew!", cat: "A" }, { text: "Nette Gespräche.", cat: "B" }, { text: "Einsamer Wolf.", cat: "C" }] },
+        { level: "Level 5: Das Portal", q: "Kommst du für eine Fortsetzung zurück?", options: [{ text: "Ich stehe als Erster am Tor!", cat: "A" }, { text: "Vielleicht.", cat: "B" }, { text: "Reise führt woanders hin.", cat: "C" }] }
+    ];
 
-    // Daten senden ohne die Seite zu blockieren
-    fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors", // Wichtig für Google Apps Script
-        cache: "no-cache",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-    }).then(() => {
-        console.log("Daten sicher im Sheet gelandet!");
-    }).catch(err => console.error("Fehler:", err));
-}
+    let currentStep = 0;
+    let answers = [];
+
+    function renderQuestion() {
+        const qData = questions[currentStep];
+        document.getElementById('level-tag').innerText = qData.level;
+        document.getElementById('question-text').innerText = qData.q;
+        document.getElementById('progress-fill').style.width = (currentStep / questions.length * 100) + "%";
+        const container = document.getElementById('options-container');
+        container.innerHTML = '';
+        qData.options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt.text;
+            btn.onclick = () => selectOption(opt.cat);
+            container.appendChild(btn);
+        });
+    }
+
+    function selectOption(category) {
+        answers.push(category);
+        if (currentStep < questions.length - 1) {
+            currentStep++;
+            renderQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    async function showResults() {
+        document.getElementById('quest-ui').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+        document.getElementById('progress-fill').style.width = "100%";
+
+        const counts = { A: 0, B: 0, C: 0 };
+        answers.forEach(a => counts[a]++);
+        let winner = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+        
+        const archetypes = {
+            'A': { name: "Der Event-Champion", text: "Du hast das Event in vollen Zügen genossen!" },
+            'B': { name: "Der Genießer", text: "Du hast dir die Rosinen herausgepickt." },
+            'C': { name: "Der kritische Entdecker", text: "Dein Feedback hilft uns enorm weiter!" }
+        };
+
+        const myArchetyp = archetypes[winner].name;
+        document.getElementById('archetype-name').innerText = myArchetyp;
+        document.getElementById('result-text').innerText = archetypes[winner].text;
+
+        const payload = { archetyp: myArchetyp, antworten: answers.join(", ") };
+
+        fetch(SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            cache: "no-cache",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+    }
+
+    renderQuestion();
+</script>
+
+</body>
+</html>
