@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>HFT Stuttgart – Dinosaurier-Quiz</title>
+  <title>Dino-Forschung – Feedback</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet" />
@@ -93,7 +93,7 @@
       justify-content: center;
       color: #fff;
       font-weight: 800;
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       letter-spacing: -0.03em;
       box-shadow: 0 10px 24px rgba(229, 69, 17, 0.45);
     }
@@ -154,3 +154,898 @@
     .stepper {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      margin: 0.5rem 0 1rem;
+      flex-wrap: wrap;
+    }
+
+    .progress-bar {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 999px;
+      height: 9px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 8%; /* dynamisch per JS */
+      height: 100%;
+      background: linear-gradient(90deg, var(--hft-orange), var(--accent-tk));
+      border-radius: inherit;
+      transition: width 0.45s ease-out;
+    }
+
+    .progress-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      min-width: 110px;
+      text-align: right;
+    }
+
+    .question-wrapper {
+      margin-top: 1.25rem;
+    }
+
+    .question-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .question-chip {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(229, 69, 17, 0.07);
+      color: var(--hft-orange-dark);
+      font-weight: 700;
+    }
+
+    .question-count {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .question-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0 0 0.25rem;
+    }
+
+    .question-hint {
+      margin: 0 0 0.8rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Schulnoten-Skala (Ordinal O) */
+    .rating-grid {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.2rem;
+    }
+
+    .rating-option {
+      flex: 1;
+      min-width: 70px;
+      position: relative;
+    }
+
+    .rating-option input {
+      display: none;
+    }
+
+    .rating-pill {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.55rem 0.35rem;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease-out;
+      font-size: 0.82rem;
+      gap: 0.15rem;
+    }
+
+    .rating-pill span.grade {
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .rating-pill span.label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .rating-option input:checked + .rating-pill {
+      border-color: rgba(0, 168, 176, 0.9);
+      box-shadow: 0 6px 14px rgba(0, 168, 176, 0.25);
+      transform: translateY(-1px);
+      background: linear-gradient(145deg, #ffffff, #f3fbfc);
+    }
+
+    .rating-option input:checked + .rating-pill span.grade {
+      color: var(--accent-tk);
+    }
+
+    /* Kategorien (K) als Karten */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.7rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .category-card {
+      position: relative;
+    }
+
+    .category-card input {
+      display: none;
+    }
+
+    .category-tile {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 18px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 0.75rem 0.75rem 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      cursor: pointer;
+      transition: all 0.2s ease-out;
+      font-size: 0.86rem;
+    }
+
+    .category-tile .tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-tk);
+      font-weight: 700;
+    }
+
+    .category-card input:checked + .category-tile {
+      border-color: rgba(229, 69, 17, 0.95);
+      box-shadow: 0 8px 20px rgba(229, 69, 17, 0.25);
+      transform: translateY(-1px);
+      background: linear-gradient(150deg, #fffdf9, #fff4ee);
+    }
+
+    .category-card input:checked + .category-tile .tag {
+      color: var(--hft-orange-dark);
+    }
+
+    /* Freitext */
+    textarea {
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      padding: 0.7rem 0.9rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      min-height: 90px;
+      resize: vertical;
+      outline: none;
+      background: rgba(255, 255, 255, 0.95);
+      transition: border 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
+
+    textarea:focus {
+      border-color: rgba(0, 168, 176, 0.9);
+      box-shadow: 0 0 0 1px rgba(0, 168, 176, 0.35);
+    }
+
+    /* Navigationsbuttons */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      padding: 0.6rem 1.35rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out,
+        background 0.15s ease-out;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(130deg, var(--hft-orange), var(--accent-tk));
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(229, 69, 17, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 26px rgba(229, 69, 17, 0.45);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.8);
+      transform: translateY(-1px);
+    }
+
+    .floating-badge {
+      position: fixed;
+      bottom: 0.9rem;
+      right: 0.9rem;
+      padding: 0.5rem 0.95rem;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.78);
+      color: #fff;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      z-index: 999;
+    }
+
+    .floating-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px rgba(65, 182, 110, 0.9);
+    }
+
+    .thankyou {
+      display: none;
+      text-align: center;
+      padding: 2rem 1rem 0.5rem;
+    }
+
+    .thankyou h2 {
+      margin-top: 0;
+      font-size: 1.6rem;
+    }
+
+    .emoji-burst {
+      font-size: 1.6rem;
+      margin-bottom: 0.2rem;
+    }
+
+    /* einfache Seitenlogik: jede Frage ein "screen" */
+    .screen {
+      display: none;
+      animation: fadeSlide 0.35s ease-out;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .card-inner {
+        padding: 1.35rem 1.15rem 1.6rem;
+      }
+      .rating-grid {
+        gap: 0.35rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="card" id="survey-card">
+      <div class="card-inner">
+        <header class="survey-header">
+          <div class="logo-block">
+            <div class="logo-mark">DINO</div>
+            <div class="logo-text">
+              <span>JURASSIC RESEARCH</span>
+              <span>INSTITUTE</span>
+            </div>
+          </div>
+          <div class="title-block">
+            <div class="pill">
+              <span class="pill-dot"></span>
+              <span>Dino-Test 2026</span>
+            </div>
+            <h1>Mini‑Feedback zu gigantischen Echsen.</h1>
+            <p>Beantworte 7 schnelle Fragen zu Dinosauriern – nur ein kurzer Test!</p>
+          </div>
+        </header>
+
+        <div class="stepper">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+          <div class="progress-label" id="progress-label">
+            Frage <span id="current-step">1</span> / <span id="total-steps">7</span>
+          </div>
+        </div>
+
+        <form id="survey-form">
+          <section class="screen active" data-step="1">
+            <div class="question-wrapper">
+              <div class="question-meta">
+                <span class="question-chip">Schulnote (O)</span>
+                <span class="question-count">Frage 1</span>
+              </div>
+              <h2 class="question-title">
+                Wie cool findest du Dinosaurier im Allgemeinen?
+              </h2>
+              <p class="question-hint">
+                1 = sehr langweilig, 5 = absolut fantastisch!
+              </p>
+
+              <div class="rating-grid">
+                <label class="rating-option">
+                  <input type="radio" name="dino_coolness" value="1" required />
+                  <div class="rating-pill">
+                    <span class="grade">1</span>
+                    <span class="label">langweilig</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="dino_coolness" value="2" />
+                  <div class="rating-pill">
+                    <span class="grade">2</span>
+                    <span class="label">naja</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="dino_coolness" value="3" />
+                  <div class="rating-pill">
+                    <span class="grade">3</span>
+                    <span class="label">geht so</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="dino_coolness" value="4" />
+                  <div class="rating-pill">
+                    <span class="grade">4</span>
+                    <span class="label">cool</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="dino_coolness" value="5" />
+                  <div class="rating-pill">
+                    <span class="grade">5</span>
+                    <span class="label">mega cool</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section class="screen" data-step="2">
+            <div class="question-wrapper">
+              <div class="question-meta">
+                <span class="question-chip">Schulnote (O)</span>
+                <span class="question-count">Frage 2</span>
+              </div>
+              <h2 class="question-title">
+                Wie realistisch findest du Filme wie "Jurassic Park"?
+              </h2>
+              <p class="question-hint">
+                Denk an Federn, Brüllen und wissenschaftliche Genauigkeit.
+              </p>
+
+              <div class="rating-grid">
+                <label class="rating-option">
+                  <input type="radio" name="realismus_filme" value="1" required />
+                  <div class="rating-pill">
+                    <span class="grade">1</span>
+                    <span class="label">reine Fiktion</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="realismus_filme" value="2" />
+                  <div class="rating-pill">
+                    <span class="grade">2</span>
+                    <span class="label">eher Fake</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="realismus_filme" value="3" />
+                  <div class="rating-pill">
+                    <span class="grade">3</span>
+                    <span class="label">gemischt</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="realismus_filme" value="4" />
+                  <div class="rating-pill">
+                    <span class="grade">4</span>
+                    <span class="label">gute Ansätze</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="realismus_filme" value="5" />
+                  <div class="rating-pill">
+                    <span class="grade">5</span>
+                    <span class="label">wie eine Doku</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section class="screen" data-step="3">
+            <div class="question-wrapper">
+              <div class="question-meta">
+                <span class="question-chip">Auswahl (K)</span>
+                <span class="question-count">Frage 3</span>
+              </div>
+              <h2 class="question-title">
+                Welcher ist dein absoluter Lieblings-Dinosaurier?
+              </h2>
+              <p class="question-hint">
+                Wähle deinen Favoriten oder trage unten einen eigenen ein.
+              </p>
+
+              <div class="category-grid">
+                <label class="category-card">
+                  <input type="radio" name="lieblingsdino" value="T-Rex" required />
+                  <div class="category-tile">
+                    <span class="tag">Der König</span>
+                    <span>Tyrannosaurus Rex – Große Zähne, kleine Arme</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="lieblingsdino" value="Triceratops" />
+                  <div class="category-tile">
+                    <span class="tag">Der Panzer</span>
+                    <span>Triceratops – Drei Hörner und mächtig stabil</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="lieblingsdino" value="Velociraptor" />
+                  <div class="category-tile">
+                    <span class="tag">Der Clevere</span>
+                    <span>Velociraptor – Schnell, schlau und im Rudel</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="lieblingsdino" value="Brachiosaurus" />
+                  <div class="category-tile">
+                    <span class="tag">Der Riese</span>
+                    <span>Brachiosaurus – Langer Hals, sanfter Riese</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="lieblingsdino" value="Sonstiger" />
+                  <div class="category-tile">
+                    <span class="tag">Anderer</span>
+                    <span>Ein ganz anderer Dino (bitte unten eintragen)</span>
+                  </div>
+                </label>
+              </div>
+
+              <textarea
+                name="lieblingsdino_text"
+                placeholder="Falls du 'Anderer' gewählt hast: Wie heißt dein Lieblings-Dino?"
+              ></textarea>
+            </div>
+          </section>
+
+          <section class="screen" data-step="4">
+            <div class="question-wrapper">
+              <div class="question-meta">
+                <span class="question-chip">Mehrfachauswahl (K)</span>
+                <span class="question-count">Frage 4</span>
+              </div>
+              <h2 class="question-title">
+                Was fasziniert dich an Dinosauriern am meisten?
+              </h2>
+              <p class="question-hint">
+                Mehrfachauswahl möglich – was ist dein Hauptgrund?
+              </p>
+
+              <div class="category-grid">
+                <label class="category-card">
+                  <input type="checkbox" name="faszination" value="Groesse" />
+                  <div class="category-tile">
+                    <span class="tag">Giganten</span>
+                    <span>Ihre schiere Größe und Kraft</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="checkbox" name="faszination" value="Geheimnis" />
+                  <div class="category-tile">
+                    <span class="tag">Mysterium</span>
+                    <span>Dass sie ausgestorben sind und wir nur Fossilien haben</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="checkbox" name="faszination" value="Filme" />
+                  <div class="category-tile">
+                    <span class="tag">Popkultur</span>
+                    <span>Kinofilme, Dokus und Videospiele</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="checkbox" name="faszination" value="Wissenschaft" />
+                  <div class="category-tile">
+                    <span class="tag">Biologie</span>
+                    <span>Ihre Evolution und Verwandtschaft zu Vögeln</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section class="screen" data-step="5">
+            <div class="question-wrapper">
+              <div class="question-meta">
+                <span class="question-chip">Auswahl + Text</span>
+                <span class="question-count">Frage 5</span>
+              </div>
+              <h2 class="question-title">
+                In welche Epoche würdest du am liebsten reisen?
+              </h2>
+              <p class="question-hint">
+                Ein Klick für die Zeit, und gern ein kurzer Grund unten im Textfeld.
+              </p>
+
+              <div class="category-grid">
+                <label class="category-card">
+                  <input type="radio" name="epoche" value="Trias" required />
+                  <div class="category-tile">
+                    <span class="tag">Trias</span>
+                    <span>Der Anfang: Erste kleine Dinosaurier</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="epoche" value="Jura" />
+                  <div class="category-tile">
+                    <span class="tag">Jura</span>
+                    <span>Die Riesen: Brachiosaurus und Stegosaurus</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="epoche" value="Kreide" />
+                  <div class="category-tile">
+                    <span class="tag">Kreide</span>
+                    <span>Das Finale: T-Rex und Triceratops</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="epoche" value="Zukunft" />
+                  <div class="category-tile">
+                    <span class="tag">Zukunft</span>
+                    <span>Keine Dinos, ich bleibe lieber in Sicherheit!</span>
+                  </div>
+                </label>
+              </div>
+
+              <textarea
+                name="epoche_grund"
+                placeholder="Warum würdest du genau dorthin reisen? Was würdest du dir anschauen?"
+              ></textarea>
+            </div>
+          </section>
+
+          <section class="screen" data-step="6">
+            <div class="question-wrapper">
+              <div class="question-meta">
+                <span class="question-chip">Schulnote (O)</span>
+                <span class="question-count">Frage 6</span>
+              </div>
+              <h2 class="question-title">
+                Wie gefährlich schätzt du einen echten Velociraptor ein?
+              </h2>
+              <p class="question-hint">
+                Wissenschaftlicher Fakt: Sie waren etwa so groß wie ein Truthahn.
+              </p>
+
+              <div class="rating-grid">
+                <label class="rating-option">
+                  <input type="radio" name="raptor_gefahr" value="1" required />
+                  <div class="rating-pill">
+                    <span class="grade">1</span>
+                    <span class="label">Süßes Huhn</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="raptor_gefahr" value="2" />
+                  <div class="rating-pill">
+                    <span class="grade">2</span>
+                    <span class="label">Harmlos</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="raptor_gefahr" value="3" />
+                  <div class="rating-pill">
+                    <span class="grade">3</span>
+                    <span class="label">Zwickt mal</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="raptor_gefahr" value="4" />
+                  <div class="rating-pill">
+                    <span class="grade">4</span>
+                    <span class="label">Gefährlich</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="raptor_gefahr" value="5" />
+                  <div class="rating-pill">
+                    <span class="grade">5</span>
+                    <span class="label">Todesmaschine</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section class="screen" data-step="7">
+            <div class="question-wrapper">
+              <div class="question-meta">
+                <span class="question-chip">Auswahl (K)</span>
+                <span class="question-count">Frage 7</span>
+              </div>
+              <h2 class="question-title">
+                Welchen dieser Dinos würdest du als Haustier halten?
+              </h2>
+              <p class="question-hint">
+                Stell dir vor, du hättest einen sehr großen Garten...
+              </p>
+
+              <div class="category-grid">
+                <label class="category-card">
+                  <input type="radio" name="haustier" value="Stegosaurus" required />
+                  <div class="category-tile">
+                    <span class="tag">Pflanzenfresser</span>
+                    <span>Stegosaurus (Rasenmäher mit Platten)</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="haustier" value="Pteranodon" />
+                  <div class="category-tile">
+                    <span class="tag">Flieger</span>
+                    <span>Pteranodon (Statt einem Papagei)</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="haustier" value="Compsognathus" />
+                  <div class="category-tile">
+                    <span class="tag">Zwerg</span>
+                    <span>Compsognathus (Nur Hühnergröße)</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="haustier" value="Keiner" />
+                  <div class="category-tile">
+                    <span class="tag">Sicherheit zuerst</span>
+                    <span>Gar keinen, mir reicht ein Hund!</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <div class="nav-bar">
+            <div class="nav-left">
+              <span id="fun-message">Los geht's mit der Dino-Forschung!</span>
+            </div>
+            <div class="nav-right">
+              <button type="button" class="btn btn-outline" id="btn-prev" disabled>
+                ‹ Zurück
+              </button>
+              <button type="button" class="btn btn-primary" id="btn-next">
+                Weiter ›
+              </button>
+              <button type="submit" class="btn btn-primary" id="btn-submit" style="display:none;">
+                Abschicken ✨
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div class="thankyou" id="thankyou">
+          <div class="emoji-burst">🦖✨</div>
+          <h2>Danke für dein Dino-Wissen!</h2>
+          <p>
+            Deine Antworten wurden erfolgreich in unserem Jurassic-Forschungslabor gespeichert.
+          </p>
+          <p>
+            Der Test war erfolgreich. Du kannst dieses Fenster nun schließen.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="floating-badge">
+    <span class="floating-dot"></span>
+    <span>Dino-Test-Modus aktiv</span>
+  </div>
+
+  <script>
+    // --- MAGIC CONNECTION TO GOOGLE SHEETS ---
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmfMHZwoN52qNs1xTacjZtFr6blp-rIbuP5CROzJyn70yQyScMtSI1YkIDZJ7z7-LSIQ/exec";
+
+    const screens = Array.from(document.querySelectorAll(".screen"));
+    const totalSteps = screens.length; // JS checkt automatisch, dass es jetzt 7 sind!
+    const currentStepSpan = document.getElementById("current-step");
+    const totalStepsSpan = document.getElementById("total-steps");
+    const progressFill = document.getElementById("progress-fill");
+    const progressLabel = document.getElementById("progress-label");
+    const funMessage = document.getElementById("fun-message");
+    const btnPrev = document.getElementById("btn-prev");
+    const btnNext = document.getElementById("btn-next");
+    const btnSubmit = document.getElementById("btn-submit");
+    const form = document.getElementById("survey-form");
+    const thankYou = document.getElementById("thankyou");
+    const cardInner = document.querySelector(".card-inner");
+
+    totalStepsSpan.textContent = totalSteps;
+
+    let currentIndex = 0;
+
+    // Ich habe die Nachrichten für 7 Schritte angepasst
+    const funMessages = [
+      "Noch 6 Fragen – du bist schneller als ein Raptor.",
+      "Frage 2! Hast du deinen Helm auf?",
+      "Sehr gut, du kennst deine Fossilien.",
+      "Halbzeit auf der Dino-Safari!",
+      "Fast geschafft, der T-Rex schläft noch.",
+      "Nur noch eine Frage vor dir...",
+      "Letzte Frage! Bring das Feedback nach Hause.",
+    ];
+
+    function updateView() {
+      screens.forEach((s, idx) => {
+        s.classList.toggle("active", idx === currentIndex);
+      });
+
+      const step = currentIndex + 1;
+      currentStepSpan.textContent = step;
+      const progress = (step / totalSteps) * 100;
+      progressFill.style.width = progress + "%";
+      progressLabel.innerHTML =
+        'Frage <span id="current-step">' +
+        step +
+        "</span> / <span id='total-steps'>" +
+        totalSteps +
+        "</span>";
+
+      funMessage.textContent = funMessages[Math.min(currentIndex, funMessages.length - 1)];
+
+      btnPrev.disabled = currentIndex === 0;
+      btnPrev.style.opacity = currentIndex === 0 ? 0.4 : 1;
+
+      const isLast = currentIndex === totalSteps - 1;
+      btnNext.style.display = isLast ? "none" : "inline-flex";
+      btnSubmit.style.display = isLast ? "inline-flex" : "none";
+    }
+
+    function validateCurrentStep() {
+      const active = screens[currentIndex];
+      const requiredInputs = active.querySelectorAll("input[required]");
+      for (const input of requiredInputs) {
+        const groupName = input.name;
+        const group = active.querySelectorAll(`input[name="${groupName}"]`);
+        const anyChecked = Array.from(group).some((g) => g.checked);
+        if (!anyChecked) {
+          active.style.animation = "none";
+          void active.offsetWidth;
+          active.style.animation = "fadeSlide 0.35s ease-out";
+          alert("Bitte wähle eine Antwort, bevor du weiterklickst.");
+          return false;
+        }
+      }
+      return true;
+    }
+
+    btnNext.addEventListener("click", () => {
+      if (!validateCurrentStep()) return;
+      if (currentIndex < totalSteps - 1) {
+        currentIndex++;
+        updateView();
+        cardInner.scrollTop = 0;
+      }
+    });
+
+    btnPrev.addEventListener("click", () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateView();
+        cardInner.scrollTop = 0;
+      }
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!validateCurrentStep()) return;
+
+      // DATEN SAMMELN
+      const formData = new FormData(form);
+      const results = {};
+      
+      // Umwandlung in ein schönes Objekt (behandelt Checkboxen als Komma-Liste)
+      formData.forEach((value, key) => {
+        if (results[key]) {
+          results[key] = results[key] + ", " + value;
+        } else {
+          results[key] = value;
+        }
+      });
+
+      // SENDEN AN GOOGLE
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        cache: "no-cache",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          archetyp: "Dino-Test Feedback", // hier den Namen der App leicht angepasst
+          antworten: JSON.stringify(results) 
+        })
+      });
+
+      // ANSICHT WECHSELN
+      form.style.display = "none";
+      thankYou.style.display = "block";
+      progressFill.style.width = "100%";
+      progressLabel.textContent = "Fertig – vielen Dank!";
+      funMessage.textContent = "Rawwwr! Dein Feedback ist sicher angekommen.";
+    });
+
+    updateView();
+  </script>
+</body>
+</html>
