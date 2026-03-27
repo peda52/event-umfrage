@@ -5,12 +5,11 @@
   <title>HFT Stuttgart – Gesundheitstag Feedback</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google Font als moderner Kontrast -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet" />
 
   <style>
-    /* [Der komplette CSS-Code bleibt identisch wie im vorherigen HTML – hier abgekürzt für Kürze] */
     :root {
+      /* HFT-CD nah nachempfunden: kräftiges Orange + Weiß, Akzent Türkis/Blau */
       --hft-orange: #e54511;
       --hft-orange-dark: #c23508;
       --hft-bg: #fdfaf7;
@@ -22,95 +21,960 @@
       --danger: #e8505b;
     }
 
-    /* ... (vollständiger CSS wie zuvor) ... */
-  </style>
-</head>
-<body>
-  <!-- [Der vollständige HTML-Struktur-Code bleibt identisch wie zuvor] -->
+    * {
+      box-sizing: border-box;
+    }
 
-  <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmfMHZwoN52qNs1xTacjZtFr6blp-rIbuP5CROzJyn70yQyScMtSI1YkIDZJ7z7-LSIQ/exec";
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top left, #f7fff9 0, #fdfaf7 45%, #fff 100%);
+      color: var(--text-dark);
+    }
 
-    // ... (alle vorherigen JS-Funktionen bleiben identisch) ...
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 1.5rem 1rem 2.5rem;
+    }
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (!validateCurrentStep()) return;
+    .card {
+      width: 100%;
+      max-width: 900px;
+      background: #ffffffee;
+      border-radius: 24px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.09);
+      overflow: hidden;
+      position: relative;
+    }
 
-      const data = new FormData(form);
-      
-      // Zusätzliche Umfrage‑Metadaten hinzufügen
-      data.append("timestamp", new Date().toISOString());
-      data.append("event", "Gesundheitstag 22.04.2026");
-      data.append("ort", "Bau 1 Aula, HFT Stuttgart");
-      data.append("user_agent", navigator.userAgent);
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 10% 0, rgba(0, 168, 176, 0.09), transparent 55%),
+        radial-gradient(circle at 100% 10%, rgba(229, 69, 17, 0.12), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
 
-      try {
-        // POST an Google Apps Script
-        const response = await fetch(SCRIPT_URL, {
-          method: "POST",
-          mode: "no-cors", // Wichtig für Google Apps Script
-          body: data,
-        });
+    .card-inner {
+      position: relative;
+      z-index: 1;
+      padding: 1.75rem 1.75rem 2.25rem;
+    }
 
-        // Erfolgs‑Screen zeigen (da no-cors kein Response liest, direkt zu Thankyou)
-        form.style.display = "none";
-        thankYou.style.display = "block";
-        progressFill.style.width = "100%";
-        progressLabel.textContent = "✅ Übermittelt – vielen Dank!";
-        funMessage.textContent = "Dein Feedback wurde erfolgreich an die HFT gespeichert.";
-        
-        // Konfetti‑Effekt für Spaß
-        confettiEffect();
-        
-      } catch (error) {
-        console.error("Fehler beim Senden:", error);
-        // Fallback: Thankyou trotzdem zeigen, Admin wird Fehler sehen
-        form.style.display = "none";
-        thankYou.style.display = "block";
-        thankYou.innerHTML = `
-          <div class="emoji-burst">🎉💚</div>
-          <h2>Danke für dein Feedback!</h2>
-          <p>Es wurde gespeichert. Falls ein Fehler auftrat, siehst du ihn in den Browser‑Tools.</p>
-        `;
+    header.survey-header {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-mark {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: var(--hft-orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: -0.03em;
+      box-shadow: 0 10px 24px rgba(229, 69, 17, 0.45);
+    }
+
+    .logo-text {
+      font-weight: 800;
+      color: var(--hft-orange);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      line-height: 1.2;
+    }
+
+    .logo-text span {
+      display: block;
+    }
+
+    .title-block {
+      flex: 1;
+      min-width: 230px;
+    }
+
+    .title-block h1 {
+      margin: 0;
+      font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+      line-height: 1.15;
+      color: var(--text-dark);
+    }
+
+    .title-block p {
+      margin: 0.35rem 0 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--accent-soft);
+      color: var(--accent-tk);
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-tk);
+      box-shadow: 0 0 0 4px rgba(0, 168, 176, 0.18);
+    }
+
+    .stepper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      margin: 0.5rem 0 1rem;
+      flex-wrap: wrap;
+    }
+
+    .progress-bar {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 999px;
+      height: 9px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 8%; /* dynamisch per JS */
+      height: 100%;
+      background: linear-gradient(90deg, var(--hft-orange), var(--accent-tk));
+      border-radius: inherit;
+      transition: width 0.45s ease-out;
+    }
+
+    .progress-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      min-width: 110px;
+      text-align: right;
+    }
+
+    .question-wrapper {
+      margin-top: 1.25rem;
+    }
+
+    .question-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .question-chip {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(229, 69, 17, 0.07);
+      color: var(--hft-orange-dark);
+      font-weight: 700;
+    }
+
+    .question-count {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .question-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0 0 0.25rem;
+    }
+
+    .question-hint {
+      margin: 0 0 0.8rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Schulnoten-Skala (Ordinal O) */
+    .rating-grid {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.2rem;
+    }
+
+    .rating-option {
+      flex: 1;
+      min-width: 70px;
+      position: relative;
+    }
+
+    .rating-option input {
+      display: none;
+    }
+
+    .rating-pill {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.55rem 0.35rem;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease-out;
+      font-size: 0.82rem;
+      gap: 0.15rem;
+    }
+
+    .rating-pill span.grade {
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .rating-pill span.label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .rating-option input:checked + .rating-pill {
+      border-color: rgba(0, 168, 176, 0.9);
+      box-shadow: 0 6px 14px rgba(0, 168, 176, 0.25);
+      transform: translateY(-1px);
+      background: linear-gradient(145deg, #ffffff, #f3fbfc);
+    }
+
+    .rating-option input:checked + .rating-pill span.grade {
+      color: var(--accent-tk);
+    }
+
+    /* Kategorien (K) als Karten */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.7rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .category-card {
+      position: relative;
+    }
+
+    .category-card input {
+      display: none;
+    }
+
+    .category-tile {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 18px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 0.75rem 0.75rem 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      cursor: pointer;
+      transition: all 0.2s ease-out;
+      font-size: 0.86rem;
+    }
+
+    .category-tile .tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-tk);
+      font-weight: 700;
+    }
+
+    .category-card input:checked + .category-tile {
+      border-color: rgba(229, 69, 17, 0.95);
+      box-shadow: 0 8px 20px rgba(229, 69, 17, 0.25);
+      transform: translateY(-1px);
+      background: linear-gradient(150deg, #fffdf9, #fff4ee);
+    }
+
+    .category-card input:checked + .category-tile .tag {
+      color: var(--hft-orange-dark);
+    }
+
+    /* Freitext */
+    textarea {
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      padding: 0.7rem 0.9rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      min-height: 90px;
+      resize: vertical;
+      outline: none;
+      background: rgba(255, 255, 255, 0.95);
+      transition: border 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
+
+    textarea:focus {
+      border-color: rgba(0, 168, 176, 0.9);
+      box-shadow: 0 0 0 1px rgba(0, 168, 176, 0.35);
+    }
+
+    /* Navigationsbuttons */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      padding: 0.6rem 1.35rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out,
+        background 0.15s ease-out;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(130deg, var(--hft-orange), var(--accent-tk));
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(229, 69, 17, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 26px rgba(229, 69, 17, 0.45);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.8);
+      transform: translateY(-1px);
+    }
+
+    .floating-badge {
+      position: fixed;
+      bottom: 0.9rem;
+      right: 0.9rem;
+      padding: 0.5rem 0.95rem;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.78);
+      color: #fff;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      z-index: 999;
+    }
+
+    .floating-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px rgba(65, 182, 110, 0.9);
+    }
+
+    .thankyou {
+      display: none;
+      text-align: center;
+      padding: 2rem 1rem 0.5rem;
+    }
+
+    .thankyou h2 {
+      margin-top: 0;
+      font-size: 1.6rem;
+    }
+
+    .emoji-burst {
+      font-size: 1.6rem;
+      margin-bottom: 0.2rem;
+    }
+
+    /* einfache Seitenlogik: jede Frage ein "screen" */
+    .screen {
+      display: none;
+      animation: fadeSlide 0.35s ease-out;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
       }
-    });
-
-    // Einfacher Konfetti‑Effekt für Spaß (ohne externe Libs)
-    function confettiEffect() {
-      const colors = ['#e54511', '#00a8b0', '#41b66e', '#ffd700', '#ff69b4'];
-      
-      for (let i = 0; i < 50; i++) {
-        const confetti = document.createElement('div');
-        confetti.style.position = 'fixed';
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.top = '-10px';
-        confetti.style.width = '8px';
-        confetti.style.height = '8px';
-        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.borderRadius = '50%';
-        confetti.style.pointerEvents = 'none';
-        confetti.style.zIndex = '1000';
-        confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
-        document.body.appendChild(confetti);
-
-        // CSS‑Animation inline
-        const style = document.createElement('style');
-        style.textContent = `
-          @keyframes fall {
-            to {
-              transform: translateY(100vh) rotate(360deg);
-              opacity: 0;
-            }
-          }
-        `;
-        document.head.appendChild(style);
-        
-        setTimeout(() => confetti.remove(), 5000);
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
 
-    // ... (Rest des JS-Codes identisch) ...
+    @media (max-width: 640px) {
+      .card-inner {
+        padding: 1.35rem 1.15rem 1.6rem;
+      }
+      .rating-grid {
+        gap: 0.35rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="card" id="survey-card">
+      <div class="card-inner">
+        <header class="survey-header">
+          <div class="logo-block">
+            <div class="logo-mark">HFT</div>
+            <div class="logo-text">
+              <span>HOCHSCHULE FÜR</span>
+              <span>TECHNIK STUTTGART</span>
+            </div>
+          </div>
+          <div class="title-block">
+            <div class="pill">
+              <span class="pill-dot"></span>
+              <span>Gesundheitstag 22.04.26</span>
+            </div>
+            <h1>Mini‑Feedback, maximaler Effekt für deine Gesundheit an der HFT.</h1>
+            <p>Beantworte ein paar spielerische Fragen – in unter 3 Minuten.</p>
+          </div>
+        </header>
+
+        <div class="stepper">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+          <div class="progress-label" id="progress-label">
+            Frage <span id="current-step">1</span> / <span id="total-steps">5</span>
+          </div>
+        </div>
+
+        <form id="survey-form">
+          <section class="screen active" data-step="1">
+            <div class="question-wrapper">
+              <div class="question-meta">
+                <span class="question-chip">Schulnote (O)</span>
+                <span class="question-count">Frage 1</span>
+              </div>
+              <h2 class="question-title">
+                Wie bewertest du den Gesundheitstag insgesamt?
+              </h2>
+              <p class="question-hint">
+                1 = sehr schlecht, 5 = sehr gut – ganz wie in der Schule.
+              </p>
+
+              <div class="rating-grid">
+                <label class="rating-option">
+                  <input type="radio" name="gesamtzufriedenheit" value="1" required />
+                  <div class="rating-pill">
+                    <span class="grade">1</span>
+                    <span class="label">sehr schlecht</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="gesamtzufriedenheit" value="2" />
+                  <div class="rating-pill">
+                    <span class="grade">2</span>
+                    <span class="label">schlecht</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="gesamtzufriedenheit" value="3" />
+                  <div class="rating-pill">
+                    <span class="grade">3</span>
+                    <span class="label">mittel</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="gesamtzufriedenheit" value="4" />
+                  <div class="rating-pill">
+                    <span class="grade">4</span>
+                    <span class="label">gut</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="gesamtzufriedenheit" value="5" />
+                  <div class="rating-pill">
+                    <span class="grade">5</span>
+                    <span class="label">sehr gut</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section class="screen" data-step="2">
+            <div class="question-wrapper">
+              <div class="question-meta">
+                <span class="question-chip">Schulnote (O)</span>
+                <span class="question-count">Frage 2</span>
+              </div>
+              <h2 class="question-title">
+                Wie bewertest du die Organisation des Gesundheitstags?
+              </h2>
+              <p class="question-hint">
+                Denk an Infos im Vorfeld, Programmablauf, Orientierung in Bau 1 (Aula) usw.
+              </p>
+
+              <div class="rating-grid">
+                <label class="rating-option">
+                  <input type="radio" name="organisation" value="1" required />
+                  <div class="rating-pill">
+                    <span class="grade">1</span>
+                    <span class="label">sehr schlecht</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="organisation" value="2" />
+                  <div class="rating-pill">
+                    <span class="grade">2</span>
+                    <span class="label">schlecht</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="organisation" value="3" />
+                  <div class="rating-pill">
+                    <span class="grade">3</span>
+                    <span class="label">mittel</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="organisation" value="4" />
+                  <div class="rating-pill">
+                    <span class="grade">4</span>
+                    <span class="label">gut</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="organisation" value="5" />
+                  <div class="rating-pill">
+                    <span class="grade">5</span>
+                    <span class="label">sehr gut</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section class="screen" data-step="3">
+            <div class="question-wrapper">
+              <div class="question-meta">
+                <span class="question-chip">Auswahl (K)</span>
+                <span class="question-count">Frage 3</span>
+              </div>
+              <h2 class="question-title">
+                Welcher Stand hat dir heute am meisten gebracht?
+              </h2>
+              <p class="question-hint">
+                Wähle den Stand, der für dich persönlich am hilfreichsten oder spannendsten war.
+              </p>
+
+              <div class="category-grid">
+                <label class="category-card">
+                  <input type="radio" name="lieblingsstand" value="Hochschulsport" required />
+                  <div class="category-tile">
+                    <span class="tag">Bewegung</span>
+                    <span>Hochschulsport – Fit bleiben zwischen Vorlesungen</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="lieblingsstand" value="TK" />
+                  <div class="category-tile">
+                    <span class="tag">Prävention</span>
+                    <span>Techniker Krankenkasse – Check‑ups & Beratung</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="lieblingsstand" value="Mental Health" />
+                  <div class="category-tile">
+                    <span class="tag">Mentale Stärke</span>
+                    <span>Stress, Resilienz & psychische Gesundheit</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="lieblingsstand" value="Ernaehrung" />
+                  <div class="category-tile">
+                    <span class="tag">Energie</span>
+                    <span>Ernährung & gesunde Snacks im Studienalltag</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="lieblingsstand" value="Sonstiger" />
+                  <div class="category-tile">
+                    <span class="tag">Anderes</span>
+                    <span>Ein anderer Stand (bitte unten nennen)</span>
+                  </div>
+                </label>
+              </div>
+
+              <textarea
+                name="lieblingsstand_text"
+                placeholder="Falls du 'anderer Stand' gewählt hast oder etwas ergänzen möchtest – hier ist Platz dafür."
+              ></textarea>
+            </div>
+          </section>
+
+          <section class="screen" data-step="4">
+            <div class="question-wrapper">
+              <div class="question-meta">
+                <span class="question-chip">Mehrfachauswahl (K)</span>
+                <span class="question-count">Frage 4</span>
+              </div>
+              <h2 class="question-title">
+                Warum bist du heute zum Gesundheitstag gekommen?
+              </h2>
+              <p class="question-hint">
+                Mehrfachauswahl möglich – was hat dich am meisten motiviert?
+              </p>
+
+              <div class="category-grid">
+                <label class="category-card">
+                  <input type="checkbox" name="motivation" value="Praevention" />
+                  <div class="category-tile">
+                    <span class="tag">Prävention</span>
+                    <span>Sorge um meine Gesundheit / Vorsorge</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="checkbox" name="motivation" value="Info" />
+                  <div class="category-tile">
+                    <span class="tag">Neugier</span>
+                    <span>Ich wollte mich allgemein informieren</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="checkbox" name="motivation" value="Aktion" />
+                  <div class="category-tile">
+                    <span class="tag">Mitmachen</span>
+                    <span>Ich wollte Angebote/Tests direkt ausprobieren</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="checkbox" name="motivation" value="Vortrag_Niedrig" />
+                  <div class="category-tile">
+                    <span class="tag">Highlight</span>
+                    <span>Ich wollte speziell den Vortrag von Andreas Niedrig hören</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="checkbox" name="motivation" value="Freunde" />
+                  <div class="category-tile">
+                    <span class="tag">Community</span>
+                    <span>Freundinnen/Freunde oder Kolleg:innen haben mich mitgenommen</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="checkbox" name="motivation" value="Zufall" />
+                  <div class="category-tile">
+                    <span class="tag">Zufall</span>
+                    <span>Ich bin spontan vorbeigekommen</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section class="screen" data-step="5">
+            <div class="question-wrapper">
+              <div class="question-meta">
+                <span class="question-chip">Auswahl + Text</span>
+                <span class="question-count">Frage 5</span>
+              </div>
+              <h2 class="question-title">
+                Wie hast du vom Gesundheitstag erfahren – und was wünschst du dir fürs nächste Mal?
+              </h2>
+              <p class="question-hint">
+                Ein Klick für den Kanal, und gern noch ein kurzer Wunschtext unten.
+              </p>
+
+              <div class="category-grid">
+                <label class="category-card">
+                  <input type="radio" name="kanal" value="HFT_Webseite" required />
+                  <div class="category-tile">
+                    <span class="tag">Online</span>
+                    <span>HFT‑Webseite oder Intranet</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="kanal" value="Mail" />
+                  <div class="category-tile">
+                    <span class="tag">Mail</span>
+                    <span>Rundmail / Newsletter der HFT</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="kanal" value="Social" />
+                  <div class="category-tile">
+                    <span class="tag">Social</span>
+                    <span>Instagram & Co.</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="kanal" value="Freunde" />
+                  <div class="category-tile">
+                    <span class="tag">Mundpropaganda</span>
+                    <span>Freund:innen, Kolleg:innen, Lehrende</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="kanal" value="Campus" />
+                  <div class="category-tile">
+                    <span class="tag">On Campus</span>
+                    <span>Plakate, Bildschirme, Flyer an der HFT</span>
+                  </div>
+                </label>
+
+                <label class="category-card">
+                  <input type="radio" name="kanal" value="Sonstiges" />
+                  <div class="category-tile">
+                    <span class="tag">Sonstiges</span>
+                    <span>Ein anderer Kanal</span>
+                  </div>
+                </label>
+              </div>
+
+              <textarea
+                name="wunsch"
+                placeholder="Was sollten wir beim nächsten Gesundheitstag unbedingt beibehalten – und was können wir für dich noch besser machen?"
+              ></textarea>
+            </div>
+          </section>
+
+          <div class="nav-bar">
+            <div class="nav-left">
+              <span id="fun-message">Noch 4 kurze Fragen – du bist schnell durch.</span>
+            </div>
+            <div class="nav-right">
+              <button type="button" class="btn btn-outline" id="btn-prev" disabled>
+                ‹ Zurück
+              </button>
+              <button type="button" class="btn btn-primary" id="btn-next">
+                Weiter ›
+              </button>
+              <button type="submit" class="btn btn-primary" id="btn-submit" style="display:none;">
+                Abschicken ✨
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div class="thankyou" id="thankyou">
+          <div class="emoji-burst">🎉💚</div>
+          <h2>Danke, dass du den Gesundheitstag mitgestaltest!</h2>
+          <p>
+            Deine Antworten fließen anonym in die Planung der nächsten Aktionen
+            rund um gesund studieren & gesund arbeiten an der HFT ein.
+          </p>
+          <p>
+            Wenn du möchtest, kannst du das Fenster jetzt schließen – oder deine
+            Kommiliton:innen auf den Gesundheitstag aufmerksam machen.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="floating-badge">
+    <span class="floating-dot"></span>
+    <span>Feedback‑Boost für die HFT‑Gesundheit – fast geschafft!</span>
+  </div>
+
+  <script>
+    // --- MAGIC CONNECTION TO GOOGLE SHEETS ---
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmfMHZwoN52qNs1xTacjZtFr6blp-rIbuP5CROzJyn70yQyScMtSI1YkIDZJ7z7-LSIQ/exec";
+
+    const screens = Array.from(document.querySelectorAll(".screen"));
+    const totalSteps = screens.length;
+    const currentStepSpan = document.getElementById("current-step");
+    const totalStepsSpan = document.getElementById("total-steps");
+    const progressFill = document.getElementById("progress-fill");
+    const progressLabel = document.getElementById("progress-label");
+    const funMessage = document.getElementById("fun-message");
+    const btnPrev = document.getElementById("btn-prev");
+    const btnNext = document.getElementById("btn-next");
+    const btnSubmit = document.getElementById("btn-submit");
+    const form = document.getElementById("survey-form");
+    const thankYou = document.getElementById("thankyou");
+    const cardInner = document.querySelector(".card-inner");
+
+    totalStepsSpan.textContent = totalSteps;
+
+    let currentIndex = 0;
+
+    const funMessages = [
+      "Noch 4 kurze Fragen – du bist schnell durch.",
+      "Nice! Nur noch 3 Fragen – du bleibst in Bewegung.",
+      "Halbzeit! 2 Fragen, dann bist du fertig.",
+      "Fast da – letzte Frage für deine Gesundheit an der HFT.",
+      "Geschafft! Jetzt nur noch abschicken.",
+    ];
+
+    function updateView() {
+      screens.forEach((s, idx) => {
+        s.classList.toggle("active", idx === currentIndex);
+      });
+
+      const step = currentIndex + 1;
+      currentStepSpan.textContent = step;
+      const progress = (step / totalSteps) * 100;
+      progressFill.style.width = progress + "%";
+      progressLabel.innerHTML =
+        'Frage <span id="current-step">' +
+        step +
+        "</span> / <span id='total-steps'>" +
+        totalSteps +
+        "</span>";
+
+      funMessage.textContent = funMessages[Math.min(currentIndex, funMessages.length - 1)];
+
+      btnPrev.disabled = currentIndex === 0;
+      btnPrev.style.opacity = currentIndex === 0 ? 0.4 : 1;
+
+      const isLast = currentIndex === totalSteps - 1;
+      btnNext.style.display = isLast ? "none" : "inline-flex";
+      btnSubmit.style.display = isLast ? "inline-flex" : "none";
+    }
+
+    function validateCurrentStep() {
+      const active = screens[currentIndex];
+      const requiredInputs = active.querySelectorAll("input[required]");
+      for (const input of requiredInputs) {
+        const groupName = input.name;
+        const group = active.querySelectorAll(`input[name="${groupName}"]`);
+        const anyChecked = Array.from(group).some((g) => g.checked);
+        if (!anyChecked) {
+          active.style.animation = "none";
+          void active.offsetWidth;
+          active.style.animation = "fadeSlide 0.35s ease-out";
+          alert("Bitte wähle eine Antwort, bevor du weiterklickst.");
+          return false;
+        }
+      }
+      return true;
+    }
+
+    btnNext.addEventListener("click", () => {
+      if (!validateCurrentStep()) return;
+      if (currentIndex < totalSteps - 1) {
+        currentIndex++;
+        updateView();
+        cardInner.scrollTop = 0;
+      }
+    });
+
+    btnPrev.addEventListener("click", () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateView();
+        cardInner.scrollTop = 0;
+      }
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!validateCurrentStep()) return;
+
+      // DATEN SAMMELN
+      const formData = new FormData(form);
+      const results = {};
+      
+      // Umwandlung in ein schönes Objekt (behandelt Checkboxen als Komma-Liste)
+      formData.forEach((value, key) => {
+        if (results[key]) {
+          results[key] = results[key] + ", " + value;
+        } else {
+          results[key] = value;
+        }
+      });
+
+      // SENDEN AN GOOGLE
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        cache: "no-cache",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          archetyp: "Gesundheitstag Feedback",
+          antworten: JSON.stringify(results) // Schickt alle Formular-Daten als Textblock
+        })
+      });
+
+      // ANSICHT WECHSELN
+      form.style.display = "none";
+      thankYou.style.display = "block";
+      progressFill.style.width = "100%";
+      progressLabel.textContent = "Fertig – vielen Dank!";
+      funMessage.textContent = "Danke, dass du dir Zeit für dein Feedback genommen hast.";
+    });
+
+    updateView();
   </script>
 </body>
 </html>
