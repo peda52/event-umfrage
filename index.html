@@ -3,55 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Event Quest</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;500&display=swap" rel="stylesheet">
+    <title>HfT Stuttgart Gesundheitstag - Feedback Quest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --primary: #22d3ee; --secondary: #818cf8; --text: #f1f5f9; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
-        #game-container { width: 90%; max-width: 500px; background: var(--card); padding: 2rem; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); text-align: center; }
-        h1 { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: var(--primary); margin-bottom: 0.5rem; }
-        .level-indicator { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--secondary); margin-bottom: 2rem; }
-        .progress-bar { height: 6px; background: #334155; border-radius: 3px; margin-bottom: 2rem; overflow: hidden; }
-        #progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); width: 0%; transition: width 0.4s ease; }
-        .question { font-size: 1.2rem; margin-bottom: 2rem; font-weight: 500; min-height: 60px; }
-        .options { display: flex; flex-direction: column; gap: 1rem; }
-        button.option-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); padding: 1rem; border-radius: 12px; color: white; cursor: pointer; transition: all 0.2s ease; text-align: left; font-size: 1rem; }
-        button.option-btn:hover { background: var(--primary); color: var(--bg); transform: translateX(5px); border-color: var(--primary); }
+        :root {
+            /* HfT Farben und Farben vom Poster */
+            --hft-rot: #EE3E34; /* Leuchtendes Rot vom Poster */
+            --ginkgo-grun: #90B95C; /* Grünton der Blätter */
+            --hft-blau: #1A3E7B; /* Dunkelblau vom Poster */
+            --bg-body: #F5F7FA;
+            --card-bg: #FFFFFF;
+            --text-main: #333333;
+            --text-light: #FFFFFF;
+            --primary-light: rgba(238, 62, 52, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden; /* Verhindert Scrolling während der Animationen */
+        }
+
+        /* Hintergrund-Muster (Ginkgo-Muster) */
+        .ginkgo-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://img.icons8.com/wired/64/000000/leaf.png'); /* Ginkgo Icon */
+            background-repeat: repeat;
+            opacity: 0.05;
+            z-index: -1;
+            animation: moveBg 60s linear infinite;
+        }
+
+        @keyframes moveBg {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 1000px; }
+        }
+
+        #game-container {
+            width: 95%;
+            max-width: 600px;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        /* Header mit Logo und Titel */
+        header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        header img { height: 40px; margin-right: 15px; }
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--hft-rot);
+            font-size: 1.6rem;
+            margin: 0;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        /* Ginkgo Progress Tracker (wachsendes Blatt) */
+        #ginkgo-tracker {
+            position: relative;
+            height: 10px;
+            background: #E0E0E0;
+            border-radius: 5px;
+            margin-bottom: 3rem;
+            overflow: hidden;
+        }
+        #ginkgo-tracker #progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--ginkgo-grun), var(--hft-rot));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        #ginkgo-leaf-icon {
+            position: absolute;
+            top: -15px;
+            left: 0%;
+            font-size: 1.6rem;
+            color: var(--ginkgo-grun);
+            transition: left 0.5s ease;
+            transform: translateX(-50%);
+        }
+
+        /* Fragen-Karte */
+        .question-card {
+            animation: slideIn 0.5s ease;
+            position: relative;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(-100px); opacity: 0; }
+        }
+
+        h2.question-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--text-main);
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+        h2.question-text::after {
+            content: '';
+            position: absolute;
+            bottom: -15px; left: 0;
+            width: 60px; height: 4px;
+            background-color: var(--hft-rot);
+            border-radius: 2px;
+        }
+
+        /* Antwort-Optionen */
+        .options {
+            display: grid;
+            gap: 1.2rem;
+            position: relative;
+        }
+        
+        button.option-btn {
+            background: var(--card-bg);
+            border: 2px solid #E0E0E0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            position: relative;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        button.option-btn:hover {
+            border-color: var(--ginkgo-grun);
+            background-color: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        button.option-btn.selected {
+            background-color: var(--ginkgo-grun);
+            border-color: var(--ginkgo-grun);
+            color: var(--text-light);
+            font-weight: 700;
+        }
+        
+        /* O-Fragen (Skala 1-5) Styling */
+        .options.ordinal {
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.8rem;
+        }
+        .options.ordinal button.option-btn {
+            text-align: center;
+            font-size: 1.4rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+        }
+
+        /* K-Fragen (Icons/Karten) Styling */
+        .options.categorical {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        /* Verstecken für Phasenwechsel */
         .hidden { display: none; }
-        #result-screen { animation: fadeIn 0.5s ease; }
+
+        #result-screen {
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .archetype { font-size: 2rem; color: var(--primary); font-family: 'Orbitron'; margin-top: 1rem; }
+
+        #archetype-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--hft-rot);
+            margin-top: 1rem;
+            text-transform: uppercase;
+        }
+        #result-text { font-size: 1.3rem; margin: 2rem 0; line-height: 1.6; color: var(--text-main); }
+        
+        .ginkgo-leaf-end {
+            font-size: 5rem;
+            color: var(--ginkgo-grun);
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 3rem;
+            border-top: 1px solid #EEE;
+            padding-top: 1rem;
+        }
+        footer .event-details {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--hft-blau);
+            font-weight: 700;
+            font-size: 1rem;
+        }
     </style>
 </head>
 <body>
 
+<div class="ginkgo-bg"></div>
+
 <div id="game-container">
+    <header>
+        <img src="https://peda52.github.io/event-umfrage/hft-logo-small.png" alt="HfT Logo">
+        <h1>FEEDBACK QUEST</h1>
+    </header>
+    
     <div id="quest-ui">
-        <div class="level-indicator" id="level-tag">Level 1: Die Landung</div>
-        <div class="progress-bar"><div id="progress-fill"></div></div>
-        <div class="question" id="question-text">Lädt...</div>
-        <div class="options" id="options-container"></div>
+        <div id="ginkgo-tracker">
+            <div id="progress-bar"></div>
+            <div id="ginkgo-leaf-icon">🍃</div>
+        </div>
+        
+        <div class="question-card" id="question-card">
+            <h2 class="question-text" id="question-text">Lädt...</h2>
+            <div class="options" id="options-container">
+                </div>
+        </div>
     </div>
 
     <div id="result-screen" class="hidden">
-        <div class="level-indicator">Quest Abgeschlossen</div>
-        <h1>DEIN ERGEBNIS</h1>
-        <div id="archetype-name" class="archetype">...</div>
-        <p id="result-text" style="margin: 2rem 0; line-height: 1.6;"></p>
-        <button onclick="location.reload()" class="option-btn" style="text-align: center; width: 100%;">Nochmal spielen</button>
+        <div class="ginkgo-leaf-end">🌿</div>
+        <h1>VIELEN DANK!</h1>
+        <p>Deine Rückmeldung macht einen Unterschied.</p>
+        <div id="result-text">Wir haben deine Antworten erhalten. Ein weiteres Ginkgo-Blatt auf dem Weg zu einer gesunden, resilienten Hochschule!</div>
+        <div class="event-details">#resilienteHochschule</div>
     </div>
+    
+    <footer>
+        <div class="event-details">HFT STUTTGART GESUNDHEITSTAG</div>
+        <div>22.04.26 | 11:00 – 16:30 UHR | Bau 1 (Aula)</div>
+        <p>#GesundStudieren #GesundArbeiten</p>
+    </footer>
 </div>
 
 <script>
-    // DEINE URL IST HIER BEREITS EINGEBAUT:
+    // DEINE URL IST HIER BEREITS EINGEBAUT (WENN ES NOCH DIE ALTE IST)
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmfMHZwoN52qNs1xTacjZtFr6blp-rIbuP5CROzJyn70yQyScMtSI1YkIDZJ7z7-LSIQ/exec";
 
     const questions = [
-        { level: "Level 1: Die Landung", q: "Du betrittst die Event-Area. Welches Gefühl überkommt dich?", options: [{ text: "Eine Oase der Ruhe.", cat: "A" }, { text: "Volle Energie!", cat: "B" }, { text: "Mysteriös...", cat: "C" }] },
-        { level: "Level 2: Die Stärkung", q: "Dein Energielevel sinkt! Was sagst du dem Koch?", options: [{ text: "Meisterwerk! Mehr davon.", cat: "A" }, { text: "Gute Stärkung.", cat: "B" }, { text: "Mehr Auswahl bitte.", cat: "C" }] },
-        { level: "Level 3: Die Wissensquelle", q: "Du triffst auf den 'Meister des Wissens'. Was nimmst du mit?", options: [{ text: "Mein Kopf platzt vor Ideen!", cat: "A" }, { text: "Gute Auffrischung.", cat: "B" }, { text: "Harter Stoff...", cat: "C" }] },
-        { level: "Level 4: Die Gefährten", q: "An der Bar triffst du andere Reisende. Wie war der Austausch?", options: [{ text: "Meine neue Crew!", cat: "A" }, { text: "Nette Gespräche.", cat: "B" }, { text: "Einsamer Wolf.", cat: "C" }] },
-        { level: "Level 5: Das Portal", q: "Kommst du für eine Fortsetzung zurück?", options: [{ text: "Ich stehe als Erster am Tor!", cat: "A" }, { text: "Vielleicht.", cat: "B" }, { text: "Reise führt woanders hin.", cat: "C" }] }
+        {
+            q: "Wie bewertest du die allgemeine Organisation des Gesundheitstags?",
+            type: "O", // Ordinalskala 1-5 (wie Schulnoten)
+            options: ["Hervorragend", "Sehr Gut", "Gut", "Befriedigend", "Ausreichend"]
+        },
+        {
+            q: "Welcher Stand hat dir am besten gefallen?",
+            type: "K", // Kategorielle Frage
+            options: ["Hochschulsport", "TK (Techniker Krankenkasse)", "Ernährungsberatung", "Meditationsecke", "Gesundheitstests"]
+        },
+        {
+            q: "Wie bewertest du den Vortrag von Andreas Niedrig?",
+            type: "O",
+            options: ["Hervorragend", "Sehr Gut", "Gut", "Befriedigend", "Ausreichend"]
+        },
+        {
+            q: "Warum bist du zum Gesundheitstag gekommen?",
+            type: "K",
+            options: ["Prävention & Neugier", "Gesundheitliche Sorgen", "Anregung von Freunden/Kollegen", "Vorträge/Workshops", "Essen/Stände"]
+        },
+        {
+            q: "Wie hast du vom Event erfahren?",
+            type: "K",
+            options: ["Webseite/Mails", "Poster/Aushang", "Social Media", "Freunde/Kollegen", "Anderes"]
+        }
     ];
 
     let currentStep = 0;
@@ -59,60 +303,103 @@
 
     function renderQuestion() {
         const qData = questions[currentStep];
-        document.getElementById('level-tag').innerText = qData.level;
         document.getElementById('question-text').innerText = qData.q;
-        document.getElementById('progress-fill').style.width = (currentStep / questions.length * 100) + "%";
+        
         const container = document.getElementById('options-container');
         container.innerHTML = '';
-        qData.options.forEach(opt => {
+        
+        // Füge die Klasse basierend auf dem Typ hinzu
+        if (qData.type === "O") {
+            container.className = 'options ordinal';
+        } else {
+            container.className = 'options categorical';
+        }
+        
+        qData.options.forEach((opt, index) => {
             const btn = document.createElement('button');
             btn.className = 'option-btn';
-            btn.innerText = opt.text;
-            btn.onclick = () => selectOption(opt.cat);
+            
+            // Für O-Fragen, benutze nur die Nummer (1-5)
+            if (qData.type === "O") {
+                btn.innerText = (index + 1);
+            } else {
+                btn.innerText = opt;
+            }
+            
+            btn.onclick = () => selectOption(opt);
             container.appendChild(btn);
         });
+        
+        updateProgress();
     }
 
     function selectOption(category) {
+        // Füge die ausgewählte Antwort hinzu
         answers.push(category);
-        if (currentStep < questions.length - 1) {
-            currentStep++;
-            renderQuestion();
-        } else {
-            showResults();
-        }
+        
+        // Füge die 'selected' Klasse hinzu (visueller Effekt)
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach(btn => {
+            if (btn.innerText == category || btn.innerText == (answers.length)) {
+                btn.classList.add('selected');
+            }
+        });
+        
+        // Füge eine kleine Verzögerung hinzu, damit der Effekt sichtbar ist
+        setTimeout(() => {
+            // Alte Karte slidet out
+            document.getElementById('question-card').style.animation = 'slideOut 0.4s ease forwards';
+            
+            setTimeout(() => {
+                if (currentStep < questions.length - 1) {
+                    currentStep++;
+                    // Neue Karte slidet in
+                    document.getElementById('question-card').style.animation = 'slideIn 0.4s ease forwards';
+                    renderQuestion();
+                } else {
+                    showResults();
+                }
+            }, 400);
+        }, 300);
+    }
+
+    function updateProgress() {
+        const progressPercentage = (currentStep / questions.length) * 100;
+        document.getElementById('progress-bar').style.width = progressPercentage + "%";
+        document.getElementById('ginkgo-leaf-icon').style.left = progressPercentage + "%";
     }
 
     async function showResults() {
         document.getElementById('quest-ui').classList.add('hidden');
         document.getElementById('result-screen').classList.remove('hidden');
-        document.getElementById('progress-fill').style.width = "100%";
-
-        const counts = { A: 0, B: 0, C: 0 };
-        answers.forEach(a => counts[a]++);
-        let winner = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
         
-        const archetypes = {
-            'A': { name: "Der Event-Champion", text: "Du hast das Event in vollen Zügen genossen!" },
-            'B': { name: "Der Genießer", text: "Du hast dir die Rosinen herausgepickt." },
-            'C': { name: "Der kritische Entdecker", text: "Dein Feedback hilft uns enorm weiter!" }
+        // Voller Fortschritt
+        document.getElementById('progress-bar').style.width = "100%";
+        document.getElementById('ginkgo-leaf-icon').style.left = "100%";
+        document.getElementById('ginkgo-leaf-icon').innerText = '🌿';
+
+        // Daten für Google Sheet vorbereiten
+        const payload = {
+            antworten: answers.join(", "), // Speichert z.B. "Gut, Hochschulsport, Sehr Gut, Prävention, Webseite"
+            zeitpunkt: new Date().toLocaleString()
         };
 
-        const myArchetyp = archetypes[winner].name;
-        document.getElementById('archetype-name').innerText = myArchetyp;
-        document.getElementById('result-text').innerText = archetypes[winner].text;
-
-        const payload = { archetyp: myArchetyp, antworten: answers.join(", ") };
-
-        fetch(SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors",
-            cache: "no-cache",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        });
+        // Daten senden an Google Script (im Hintergrund)
+        try {
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                cache: "no-cache",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            console.log("Daten an Google Script gesendet.");
+        } catch (err) {
+            console.error("Fehler beim Senden:", err);
+        }
     }
 
+    // Starte die erste Frage
     renderQuestion();
 </script>
 
