@@ -1,0 +1,38 @@
+async function showResults() {
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmfMHZwoN52qNs1xTacjZtFr6blp-rIbuP5CROzJyn70yQyScMtSI1YkIDZJ7z7-LSIQ/exec"; //
+
+    document.getElementById('quest-ui').classList.add('hidden');
+    document.getElementById('result-screen').classList.remove('hidden');
+    document.getElementById('progress-fill').style.width = "100%";
+
+    const counts = { A: 0, B: 0, C: 0 };
+    answers.forEach(a => counts[a]++);
+    let winner = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+    
+    const archetypes = {
+        'A': { name: "Der Event-Champion", text: "Du hast das Event in vollen Zügen genossen!" },
+        'B': { name: "Der Genießer", text: "Du hast dir die Rosinen herausgepickt." },
+        'C': { name: "Der kritische Entdecker", text: "Dein Feedback hilft uns enorm weiter!" }
+    };
+
+    const myArchetyp = archetypes[winner].name;
+    document.getElementById('archetype-name').innerText = myArchetyp;
+    document.getElementById('result-text').innerText = archetypes[winner].text;
+
+    // Daten für Google Sheet vorbereiten
+    const payload = {
+        archetyp: myArchetyp,
+        antworten: answers.join(", ")
+    };
+
+    // Daten senden ohne die Seite zu blockieren
+    fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors", // Wichtig für Google Apps Script
+        cache: "no-cache",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    }).then(() => {
+        console.log("Daten sicher im Sheet gelandet!");
+    }).catch(err => console.error("Fehler:", err));
+}
