@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>Dino-Forschung – Feedback</title>
+  <title>HFT Stuttgart – Gesundheitstag Feedback</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet" />
@@ -93,7 +93,7 @@
       justify-content: center;
       color: #fff;
       font-weight: 800;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       letter-spacing: -0.03em;
       box-shadow: 0 10px 24px rgba(229, 69, 17, 0.45);
     }
@@ -339,6 +339,7 @@
       outline: none;
       background: rgba(255, 255, 255, 0.95);
       transition: border 0.2s ease-out, box-shadow 0.2s ease-out;
+      margin-bottom: 1rem;
     }
 
     textarea:focus {
@@ -478,19 +479,19 @@
       <div class="card-inner">
         <header class="survey-header">
           <div class="logo-block">
-            <div class="logo-mark">DINO</div>
+            <div class="logo-mark">HFT</div>
             <div class="logo-text">
-              <span>JURASSIC RESEARCH</span>
-              <span>INSTITUTE</span>
+              <span>HOCHSCHULE FÜR</span>
+              <span>TECHNIK STUTTGART</span>
             </div>
           </div>
           <div class="title-block">
             <div class="pill">
               <span class="pill-dot"></span>
-              <span>Dino-Test 2026</span>
+              <span>Gesundheitstag</span>
             </div>
-            <h1>Mini‑Feedback zu gigantischen Echsen.</h1>
-            <p>Beantworte 7 schnelle Fragen zu Dinosauriern – nur ein kurzer Test!</p>
+            <h1>Mini‑Feedback, maximaler Effekt für deine Gesundheit an der HFT.</h1>
+            <p>Beantworte ein paar kurze Fragen – in unter 3 Minuten.</p>
           </div>
         </header>
 
@@ -507,167 +508,156 @@
           <section class="screen active" data-step="1">
             <div class="question-wrapper">
               <div class="question-meta">
-                <span class="question-chip">Schulnote (O)</span>
-                <span class="question-count">Frage 1</span>
+                <span class="question-chip">Freitext</span>
+                <span class="question-count">1. Teilnahme an Angeboten</span>
               </div>
               <h2 class="question-title">
-                Wie cool findest du Dinosaurier im Allgemeinen?
+                An welchen Angeboten haben Sie teilgenommen?
               </h2>
               <p class="question-hint">
-                1 = sehr langweilig, 5 = absolut fantastisch!
+                Bitte nennen Sie kurz die Stände, Vorträge oder Aktionen.
               </p>
-
-              <div class="rating-grid">
-                <label class="rating-option">
-                  <input type="radio" name="dino_coolness" value="1" required />
-                  <div class="rating-pill">
-                    <span class="grade">1</span>
-                    <span class="label">langweilig</span>
-                  </div>
-                </label>
-                <label class="rating-option">
-                  <input type="radio" name="dino_coolness" value="2" />
-                  <div class="rating-pill">
-                    <span class="grade">2</span>
-                    <span class="label">naja</span>
-                  </div>
-                </label>
-                <label class="rating-option">
-                  <input type="radio" name="dino_coolness" value="3" />
-                  <div class="rating-pill">
-                    <span class="grade">3</span>
-                    <span class="label">geht so</span>
-                  </div>
-                </label>
-                <label class="rating-option">
-                  <input type="radio" name="dino_coolness" value="4" />
-                  <div class="rating-pill">
-                    <span class="grade">4</span>
-                    <span class="label">cool</span>
-                  </div>
-                </label>
-                <label class="rating-option">
-                  <input type="radio" name="dino_coolness" value="5" />
-                  <div class="rating-pill">
-                    <span class="grade">5</span>
-                    <span class="label">mega cool</span>
-                  </div>
-                </label>
-              </div>
+              <textarea
+                name="teilgenommene_angebote"
+                placeholder="Ihre Antwort..."
+                required
+              ></textarea>
             </div>
           </section>
 
           <section class="screen" data-step="2">
             <div class="question-wrapper">
               <div class="question-meta">
-                <span class="question-chip">Schulnote (O)</span>
-                <span class="question-count">Frage 2</span>
+                <span class="question-chip">Bewertung</span>
+                <span class="question-count">2. Gesamtbewertung</span>
               </div>
-              <h2 class="question-title">
-                Wie realistisch findest du Filme wie "Jurassic Park"?
+              
+              <h2 class="question-title" style="margin-top: 0.5rem;">
+                Wie zufrieden sind Sie mit dem Gesundheitstag?
               </h2>
-              <p class="question-hint">
-                Denk an Federn, Brüllen und wissenschaftliche Genauigkeit.
-              </p>
-
               <div class="rating-grid">
                 <label class="rating-option">
-                  <input type="radio" name="realismus_filme" value="1" required />
+                  <input type="radio" name="gesamtzufriedenheit" value="1" required />
                   <div class="rating-pill">
                     <span class="grade">1</span>
-                    <span class="label">reine Fiktion</span>
+                    <span class="label">gar nicht</span>
                   </div>
                 </label>
                 <label class="rating-option">
-                  <input type="radio" name="realismus_filme" value="2" />
+                  <input type="radio" name="gesamtzufriedenheit" value="2" />
                   <div class="rating-pill">
                     <span class="grade">2</span>
-                    <span class="label">eher Fake</span>
+                    <span class="label">eher nicht</span>
                   </div>
                 </label>
                 <label class="rating-option">
-                  <input type="radio" name="realismus_filme" value="3" />
+                  <input type="radio" name="gesamtzufriedenheit" value="3" />
                   <div class="rating-pill">
                     <span class="grade">3</span>
-                    <span class="label">gemischt</span>
+                    <span class="label">teils/teils</span>
                   </div>
                 </label>
                 <label class="rating-option">
-                  <input type="radio" name="realismus_filme" value="4" />
+                  <input type="radio" name="gesamtzufriedenheit" value="4" />
                   <div class="rating-pill">
                     <span class="grade">4</span>
-                    <span class="label">gute Ansätze</span>
+                    <span class="label">zufrieden</span>
                   </div>
                 </label>
                 <label class="rating-option">
-                  <input type="radio" name="realismus_filme" value="5" />
+                  <input type="radio" name="gesamtzufriedenheit" value="5" />
                   <div class="rating-pill">
                     <span class="grade">5</span>
-                    <span class="label">wie eine Doku</span>
+                    <span class="label">sehr</span>
                   </div>
                 </label>
               </div>
+
+              <h2 class="question-title" style="margin-top: 1.5rem;">
+                Wie relevant waren die Inhalte für Sie?
+              </h2>
+              <div class="rating-grid">
+                <label class="rating-option">
+                  <input type="radio" name="relevanz" value="1" required />
+                  <div class="rating-pill">
+                    <span class="grade">1</span>
+                    <span class="label">gar nicht</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="relevanz" value="2" />
+                  <div class="rating-pill">
+                    <span class="grade">2</span>
+                    <span class="label">eher nicht</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="relevanz" value="3" />
+                  <div class="rating-pill">
+                    <span class="grade">3</span>
+                    <span class="label">teils/teils</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="relevanz" value="4" />
+                  <div class="rating-pill">
+                    <span class="grade">4</span>
+                    <span class="label">relevant</span>
+                  </div>
+                </label>
+                <label class="rating-option">
+                  <input type="radio" name="relevanz" value="5" />
+                  <div class="rating-pill">
+                    <span class="grade">5</span>
+                    <span class="label">sehr</span>
+                  </div>
+                </label>
+              </div>
+
+              <h2 class="question-title" style="margin-top: 1.5rem;">
+                Würden Sie wieder teilnehmen?
+              </h2>
+              <div class="category-grid">
+                <label class="category-card">
+                  <input type="radio" name="wieder_teilnehmen" value="ja" required />
+                  <div class="category-tile" style="align-items: center;">
+                    <span class="tag">Ja</span>
+                  </div>
+                </label>
+                <label class="category-card">
+                  <input type="radio" name="wieder_teilnehmen" value="vielleicht" />
+                  <div class="category-tile" style="align-items: center;">
+                    <span class="tag">Vielleicht</span>
+                  </div>
+                </label>
+                <label class="category-card">
+                  <input type="radio" name="wieder_teilnehmen" value="nein" />
+                  <div class="category-tile" style="align-items: center;">
+                    <span class="tag">Nein</span>
+                  </div>
+                </label>
+              </div>
+              <textarea
+                name="wieder_teilnehmen_nein_text"
+                placeholder="Wenn nein: Möchten Sie kurz erläutern, warum?"
+                style="min-height: 60px;"
+              ></textarea>
             </div>
           </section>
 
           <section class="screen" data-step="3">
             <div class="question-wrapper">
               <div class="question-meta">
-                <span class="question-chip">Auswahl (K)</span>
-                <span class="question-count">Frage 3</span>
+                <span class="question-chip">Freitext</span>
+                <span class="question-count">3. Event-spezifisches Feedback</span>
               </div>
               <h2 class="question-title">
-                Welcher ist dein absoluter Lieblings-Dinosaurier?
+                Was waren Ihre 1–3 persönlichen Highlights, an denen Sie teilgenommen haben?
               </h2>
-              <p class="question-hint">
-                Wähle deinen Favoriten oder trage unten einen eigenen ein.
-              </p>
-
-              <div class="category-grid">
-                <label class="category-card">
-                  <input type="radio" name="lieblingsdino" value="T-Rex" required />
-                  <div class="category-tile">
-                    <span class="tag">Der König</span>
-                    <span>Tyrannosaurus Rex – Große Zähne, kleine Arme</span>
-                  </div>
-                </label>
-
-                <label class="category-card">
-                  <input type="radio" name="lieblingsdino" value="Triceratops" />
-                  <div class="category-tile">
-                    <span class="tag">Der Panzer</span>
-                    <span>Triceratops – Drei Hörner und mächtig stabil</span>
-                  </div>
-                </label>
-
-                <label class="category-card">
-                  <input type="radio" name="lieblingsdino" value="Velociraptor" />
-                  <div class="category-tile">
-                    <span class="tag">Der Clevere</span>
-                    <span>Velociraptor – Schnell, schlau und im Rudel</span>
-                  </div>
-                </label>
-
-                <label class="category-card">
-                  <input type="radio" name="lieblingsdino" value="Brachiosaurus" />
-                  <div class="category-tile">
-                    <span class="tag">Der Riese</span>
-                    <span>Brachiosaurus – Langer Hals, sanfter Riese</span>
-                  </div>
-                </label>
-
-                <label class="category-card">
-                  <input type="radio" name="lieblingsdino" value="Sonstiger" />
-                  <div class="category-tile">
-                    <span class="tag">Anderer</span>
-                    <span>Ein ganz anderer Dino (bitte unten eintragen)</span>
-                  </div>
-                </label>
-              </div>
-
               <textarea
-                name="lieblingsdino_text"
-                placeholder="Falls du 'Anderer' gewählt hast: Wie heißt dein Lieblings-Dino?"
+                name="highlights"
+                placeholder="Ihre Highlights..."
+                required
               ></textarea>
             </div>
           </section>
@@ -675,102 +665,71 @@
           <section class="screen" data-step="4">
             <div class="question-wrapper">
               <div class="question-meta">
-                <span class="question-chip">Mehrfachauswahl (K)</span>
-                <span class="question-count">Frage 4</span>
+                <span class="question-chip">Auswahl + Text</span>
+                <span class="question-count">4. Wahrgenommene Wirkung</span>
               </div>
+              
               <h2 class="question-title">
-                Was fasziniert dich an Dinosauriern am meisten?
+                Hat der Gesundheitstag Ihre Wahrnehmung von Gesundheit an der HFT verändert?
               </h2>
-              <p class="question-hint">
-                Mehrfachauswahl möglich – was ist dein Hauptgrund?
-              </p>
-
               <div class="category-grid">
                 <label class="category-card">
-                  <input type="checkbox" name="faszination" value="Groesse" />
-                  <div class="category-tile">
-                    <span class="tag">Giganten</span>
-                    <span>Ihre schiere Größe und Kraft</span>
-                  </div>
+                  <input type="radio" name="wahrnehmung_veraendert" value="ja" required />
+                  <div class="category-tile" style="align-items: center;"><span class="tag">Ja</span></div>
                 </label>
-
                 <label class="category-card">
-                  <input type="checkbox" name="faszination" value="Geheimnis" />
-                  <div class="category-tile">
-                    <span class="tag">Mysterium</span>
-                    <span>Dass sie ausgestorben sind und wir nur Fossilien haben</span>
-                  </div>
+                  <input type="radio" name="wahrnehmung_veraendert" value="ein bisschen" />
+                  <div class="category-tile" style="align-items: center;"><span class="tag">Ein bisschen</span></div>
                 </label>
-
                 <label class="category-card">
-                  <input type="checkbox" name="faszination" value="Filme" />
-                  <div class="category-tile">
-                    <span class="tag">Popkultur</span>
-                    <span>Kinofilme, Dokus und Videospiele</span>
-                  </div>
-                </label>
-
-                <label class="category-card">
-                  <input type="checkbox" name="faszination" value="Wissenschaft" />
-                  <div class="category-tile">
-                    <span class="tag">Biologie</span>
-                    <span>Ihre Evolution und Verwandtschaft zu Vögeln</span>
-                  </div>
+                  <input type="radio" name="wahrnehmung_veraendert" value="nein" />
+                  <div class="category-tile" style="align-items: center;"><span class="tag">Nein</span></div>
                 </label>
               </div>
+              <textarea
+                name="wahrnehmung_text"
+                placeholder="Wenn ja/ein bisschen: Inwiefern? Bitte erläutern Sie kurz..."
+                style="min-height: 60px;"
+              ></textarea>
+
+              <h2 class="question-title" style="margin-top: 1.5rem;">
+                Hat der Gesundheitstag Ihnen neue Impulse für einen gesünderen Berufs-/Studienalltag gegeben?
+              </h2>
+              <div class="category-grid">
+                <label class="category-card">
+                  <input type="radio" name="impulse_gegeben" value="ja" required />
+                  <div class="category-tile" style="align-items: center;"><span class="tag">Ja</span></div>
+                </label>
+                <label class="category-card">
+                  <input type="radio" name="impulse_gegeben" value="ein bisschen" />
+                  <div class="category-tile" style="align-items: center;"><span class="tag">Ein bisschen</span></div>
+                </label>
+                <label class="category-card">
+                  <input type="radio" name="impulse_gegeben" value="nein" />
+                  <div class="category-tile" style="align-items: center;"><span class="tag">Nein</span></div>
+                </label>
+              </div>
+              <textarea
+                name="impulse_text"
+                placeholder="Wenn ja/ein bisschen: Inwiefern? Bitte erläutern Sie kurz..."
+                style="min-height: 60px;"
+              ></textarea>
             </div>
           </section>
 
           <section class="screen" data-step="5">
             <div class="question-wrapper">
               <div class="question-meta">
-                <span class="question-chip">Auswahl + Text</span>
-                <span class="question-count">Frage 5</span>
+                <span class="question-chip">Freitext</span>
+                <span class="question-count">5. Verbesserungspotenziale</span>
               </div>
               <h2 class="question-title">
-                In welche Epoche würdest du am liebsten reisen?
+                Was hat gefehlt oder hätte besser sein können?
               </h2>
-              <p class="question-hint">
-                Ein Klick für die Zeit, und gern ein kurzer Grund unten im Textfeld.
-              </p>
-
-              <div class="category-grid">
-                <label class="category-card">
-                  <input type="radio" name="epoche" value="Trias" required />
-                  <div class="category-tile">
-                    <span class="tag">Trias</span>
-                    <span>Der Anfang: Erste kleine Dinosaurier</span>
-                  </div>
-                </label>
-
-                <label class="category-card">
-                  <input type="radio" name="epoche" value="Jura" />
-                  <div class="category-tile">
-                    <span class="tag">Jura</span>
-                    <span>Die Riesen: Brachiosaurus und Stegosaurus</span>
-                  </div>
-                </label>
-
-                <label class="category-card">
-                  <input type="radio" name="epoche" value="Kreide" />
-                  <div class="category-tile">
-                    <span class="tag">Kreide</span>
-                    <span>Das Finale: T-Rex und Triceratops</span>
-                  </div>
-                </label>
-
-                <label class="category-card">
-                  <input type="radio" name="epoche" value="Zukunft" />
-                  <div class="category-tile">
-                    <span class="tag">Zukunft</span>
-                    <span>Keine Dinos, ich bleibe lieber in Sicherheit!</span>
-                  </div>
-                </label>
-              </div>
-
               <textarea
-                name="epoche_grund"
-                placeholder="Warum würdest du genau dorthin reisen? Was würdest du dir anschauen?"
+                name="verbesserungspotenzial"
+                placeholder="Ihre Anregungen..."
+                required
               ></textarea>
             </div>
           </section>
@@ -778,108 +737,112 @@
           <section class="screen" data-step="6">
             <div class="question-wrapper">
               <div class="question-meta">
-                <span class="question-chip">Schulnote (O)</span>
-                <span class="question-count">Frage 6</span>
+                <span class="question-chip">Mehrfachauswahl</span>
+                <span class="question-count">6. Sichtbarkeit & Kommunikation</span>
               </div>
               <h2 class="question-title">
-                Wie gefährlich schätzt du einen echten Velociraptor ein?
+                Wie haben Sie vom Event erfahren?
               </h2>
               <p class="question-hint">
-                Wissenschaftlicher Fakt: Sie waren etwa so groß wie ein Truthahn.
+                Mehrfachauswahl möglich.
               </p>
 
-              <div class="rating-grid">
-                <label class="rating-option">
-                  <input type="radio" name="raptor_gefahr" value="1" required />
-                  <div class="rating-pill">
-                    <span class="grade">1</span>
-                    <span class="label">Süßes Huhn</span>
+              <div class="category-grid">
+                <label class="category-card">
+                  <input type="checkbox" name="kommunikation" value="Website_Wiki" />
+                  <div class="category-tile">
+                    <span class="tag">Online</span>
+                    <span>Website der HFT / HFT Wiki</span>
                   </div>
                 </label>
-                <label class="rating-option">
-                  <input type="radio" name="raptor_gefahr" value="2" />
-                  <div class="rating-pill">
-                    <span class="grade">2</span>
-                    <span class="label">Harmlos</span>
+                <label class="category-card">
+                  <input type="checkbox" name="kommunikation" value="Social_Media" />
+                  <div class="category-tile">
+                    <span class="tag">Social</span>
+                    <span>Social Media</span>
                   </div>
                 </label>
-                <label class="rating-option">
-                  <input type="radio" name="raptor_gefahr" value="3" />
-                  <div class="rating-pill">
-                    <span class="grade">3</span>
-                    <span class="label">Zwickt mal</span>
+                <label class="category-card">
+                  <input type="checkbox" name="kommunikation" value="E-Mail" />
+                  <div class="category-tile">
+                    <span class="tag">Mail</span>
+                    <span>E-Mail</span>
                   </div>
                 </label>
-                <label class="rating-option">
-                  <input type="radio" name="raptor_gefahr" value="4" />
-                  <div class="rating-pill">
-                    <span class="grade">4</span>
-                    <span class="label">Gefährlich</span>
+                <label class="category-card">
+                  <input type="checkbox" name="kommunikation" value="Plakate_Flyer" />
+                  <div class="category-tile">
+                    <span class="tag">Print</span>
+                    <span>Plakate / Flyer</span>
                   </div>
                 </label>
-                <label class="rating-option">
-                  <input type="radio" name="raptor_gefahr" value="5" />
-                  <div class="rating-pill">
-                    <span class="grade">5</span>
-                    <span class="label">Todesmaschine</span>
+                <label class="category-card">
+                  <input type="checkbox" name="kommunikation" value="Dozenten_Vorlesung" />
+                  <div class="category-tile">
+                    <span class="tag">Lehre</span>
+                    <span>Dozenten / Vorlesung</span>
+                  </div>
+                </label>
+                <label class="category-card">
+                  <input type="checkbox" name="kommunikation" value="Freunde_Kommilitonen" />
+                  <div class="category-tile">
+                    <span class="tag">Persönlich</span>
+                    <span>Freunde / Kommilitonen</span>
+                  </div>
+                </label>
+                <label class="category-card">
+                  <input type="checkbox" name="kommunikation" value="Vor_Ort" />
+                  <div class="category-tile">
+                    <span class="tag">Zufall</span>
+                    <span>Vor Ort entdeckt</span>
+                  </div>
+                </label>
+                <label class="category-card">
+                  <input type="checkbox" name="kommunikation" value="Sonstiges" />
+                  <div class="category-tile">
+                    <span class="tag">Anderes</span>
+                    <span>Sonstiges (bitte unten angeben)</span>
                   </div>
                 </label>
               </div>
+              <textarea
+                name="kommunikation_sonstiges_text"
+                placeholder="Falls Sonstiges, wie haben Sie davon erfahren?"
+                style="min-height: 60px;"
+              ></textarea>
             </div>
           </section>
 
           <section class="screen" data-step="7">
             <div class="question-wrapper">
               <div class="question-meta">
-                <span class="question-chip">Auswahl (K)</span>
-                <span class="question-count">Frage 7</span>
+                <span class="question-chip">Freitext</span>
+                <span class="question-count">7. Gesundheit im Studienalltag</span>
               </div>
+              
               <h2 class="question-title">
-                Welchen dieser Dinos würdest du als Haustier halten?
+                Was würde Ihnen im Studien-/Arbeitsalltag an der HFT konkret helfen, bewusster auf Ihre Gesundheit zu achten?
               </h2>
-              <p class="question-hint">
-                Stell dir vor, du hättest einen sehr großen Garten...
-              </p>
+              <textarea
+                name="alltagshilfe"
+                placeholder="Ihre Ideen für den Alltag..."
+                required
+              ></textarea>
 
-              <div class="category-grid">
-                <label class="category-card">
-                  <input type="radio" name="haustier" value="Stegosaurus" required />
-                  <div class="category-tile">
-                    <span class="tag">Pflanzenfresser</span>
-                    <span>Stegosaurus (Rasenmäher mit Platten)</span>
-                  </div>
-                </label>
-
-                <label class="category-card">
-                  <input type="radio" name="haustier" value="Pteranodon" />
-                  <div class="category-tile">
-                    <span class="tag">Flieger</span>
-                    <span>Pteranodon (Statt einem Papagei)</span>
-                  </div>
-                </label>
-
-                <label class="category-card">
-                  <input type="radio" name="haustier" value="Compsognathus" />
-                  <div class="category-tile">
-                    <span class="tag">Zwerg</span>
-                    <span>Compsognathus (Nur Hühnergröße)</span>
-                  </div>
-                </label>
-
-                <label class="category-card">
-                  <input type="radio" name="haustier" value="Keiner" />
-                  <div class="category-tile">
-                    <span class="tag">Sicherheit zuerst</span>
-                    <span>Gar keinen, mir reicht ein Hund!</span>
-                  </div>
-                </label>
-              </div>
+              <h2 class="question-title" style="margin-top: 1.5rem;">
+                Gibt es etwas vom heutigen Gesundheitstag, das langfristig an der HFT angeboten werden sollte?
+              </h2>
+              <textarea
+                name="langfristige_angebote"
+                placeholder="Was sollten wir beibehalten?"
+                required
+              ></textarea>
             </div>
           </section>
 
           <div class="nav-bar">
             <div class="nav-left">
-              <span id="fun-message">Los geht's mit der Dino-Forschung!</span>
+              <span id="fun-message">Noch 6 kurze Fragen – du bist schnell durch.</span>
             </div>
             <div class="nav-right">
               <button type="button" class="btn btn-outline" id="btn-prev" disabled>
@@ -896,13 +859,14 @@
         </form>
 
         <div class="thankyou" id="thankyou">
-          <div class="emoji-burst">🦖✨</div>
-          <h2>Danke für dein Dino-Wissen!</h2>
+          <div class="emoji-burst">🎉💚</div>
+          <h2>Danke, dass du den Gesundheitstag mitgestaltest!</h2>
           <p>
-            Deine Antworten wurden erfolgreich in unserem Jurassic-Forschungslabor gespeichert.
+            Deine Antworten fließen anonym in die Planung der nächsten Aktionen
+            rund um gesund studieren & gesund arbeiten an der HFT ein.
           </p>
           <p>
-            Der Test war erfolgreich. Du kannst dieses Fenster nun schließen.
+            Wenn du möchtest, kannst du das Fenster jetzt schließen.
           </p>
         </div>
       </div>
@@ -911,7 +875,7 @@
 
   <div class="floating-badge">
     <span class="floating-dot"></span>
-    <span>Dino-Test-Modus aktiv</span>
+    <span>Feedback‑Boost für die HFT‑Gesundheit – fast geschafft!</span>
   </div>
 
   <script>
@@ -919,7 +883,7 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmfMHZwoN52qNs1xTacjZtFr6blp-rIbuP5CROzJyn70yQyScMtSI1YkIDZJ7z7-LSIQ/exec";
 
     const screens = Array.from(document.querySelectorAll(".screen"));
-    const totalSteps = screens.length; // JS checkt automatisch, dass es jetzt 7 sind!
+    const totalSteps = screens.length;
     const currentStepSpan = document.getElementById("current-step");
     const totalStepsSpan = document.getElementById("total-steps");
     const progressFill = document.getElementById("progress-fill");
@@ -936,15 +900,14 @@
 
     let currentIndex = 0;
 
-    // Ich habe die Nachrichten für 7 Schritte angepasst
     const funMessages = [
-      "Noch 6 Fragen – du bist schneller als ein Raptor.",
-      "Frage 2! Hast du deinen Helm auf?",
-      "Sehr gut, du kennst deine Fossilien.",
-      "Halbzeit auf der Dino-Safari!",
-      "Fast geschafft, der T-Rex schläft noch.",
-      "Nur noch eine Frage vor dir...",
-      "Letzte Frage! Bring das Feedback nach Hause.",
+      "Noch 6 kurze Abschnitte – das geht schnell.",
+      "Sehr gut! Deine Meinung ist uns wichtig.",
+      "Das hilft uns bei der Planung extrem weiter.",
+      "Halbzeit! Bleib dabei.",
+      "Fast da – noch ein paar Infos für deine Gesundheit an der HFT.",
+      "Nur noch ein Klick zur letzten Seite.",
+      "Geschafft! Jetzt nur noch abschicken.",
     ];
 
     function updateView() {
@@ -975,6 +938,19 @@
 
     function validateCurrentStep() {
       const active = screens[currentIndex];
+      // Check required textareas
+      const requiredTextareas = active.querySelectorAll("textarea[required]");
+      for (const ta of requiredTextareas) {
+        if (!ta.value.trim()) {
+          active.style.animation = "none";
+          void active.offsetWidth;
+          active.style.animation = "fadeSlide 0.35s ease-out";
+          alert("Bitte fülle das Pflichtfeld aus, bevor du weiterklickst.");
+          return false;
+        }
+      }
+
+      // Check required inputs (radio/checkbox)
       const requiredInputs = active.querySelectorAll("input[required]");
       for (const input of requiredInputs) {
         const groupName = input.name;
@@ -1032,7 +1008,7 @@
         cache: "no-cache",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          archetyp: "Dino-Test Feedback", // hier den Namen der App leicht angepasst
+          archetyp: "Gesundheitstag Feedback HFT",
           antworten: JSON.stringify(results) 
         })
       });
@@ -1042,7 +1018,7 @@
       thankYou.style.display = "block";
       progressFill.style.width = "100%";
       progressLabel.textContent = "Fertig – vielen Dank!";
-      funMessage.textContent = "Rawwwr! Dein Feedback ist sicher angekommen.";
+      funMessage.textContent = "Danke, dass du dir Zeit für dein Feedback genommen hast.";
     });
 
     updateView();
